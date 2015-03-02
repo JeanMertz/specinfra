@@ -48,7 +48,8 @@ module Specinfra::Backend
     private
 
     def create_and_start_container
-      opts = { 'Image' => current_image.id }
+      opts = Specinfra.configuration.docker_container_create_options || {}
+      opts.merge!('Image' => current_image.id)
 
       if path = Specinfra.configuration.path
         (opts['Env'] ||= {})['PATH'] = path
